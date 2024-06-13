@@ -1,0 +1,71 @@
+How to Launch and Connect to a macOS Instance on Amazon EC2 and Access It Through a GUI Using VNC Client
+Steps Overview
+Setup Dedicated Host
+Launch macOS Instance
+Configure VNC for GUI Access
+Connect Using VNC Client
+Setup splashtop
+Setup jamf 
+1. Setup Dedicated Host
+    Create Dedicated Host:
+In the left navigation pane, click on Dedicated Hosts.
+Click on Allocate Dedicated Host.
+Fill in the required details:
+Instance Family: Search for mac1.
+Instance Type: Select mac1.metal.
+Availability Zone: Choose your desired availability zone.
+Add any necessary tags.
+2. Launch macOS Instance
+Launch Instance:
+Return to the EC2 Dashboard and click Launch instance.
+Choose a macOS AMI, such as macOS Sonoma 14.5 
+Configure Instance:
+Select the instance type as mac1.metal.
+Choose the VPC and subnet configured earlier in the dedicated hots.
+Select the role OrganizationInstanceRoleForRancherHost
+Under Host, select the dedicated host created previously.
+Add necessary storage for smooth GUI operation.
+Launch the mac-instance
+Connect using fleet manager
+ 
+ 3. Configure VNC for GUI Access
+Install VNC on mac os using below command
+Step 1: Set Privileges
+$ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -allUsers -privs -all
+            Result:
+Starting... Setting allow all users to YES.
+Setting all users privileges to 1073742079.
+Done.
+Step 2: Allow VNC Clients
+$ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
+Result:
+Starting...
+Set the client options.
+Done.
+Step 3: Set VNC Password
+$ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw supersecret
+Result:
+Starting...
+Set the client options.
+Done.
+Step 4: Restart Service
+$ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+
+Result:
+Starting...
+Stopped ARD Agent.
+Stopped VNC Privilege Proxy
+Stopped RFB Register MDNS
+Done.
+Step 5: Activate ARD Services
+$ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+Result:
+Starting...
+Activated Remote Management.
+Done.
+ 4. Setup Splashtop
+Setup splashtop using document given by IT Desk
+
+  5. Setup Jamf   
+
+    
